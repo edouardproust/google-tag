@@ -162,9 +162,9 @@ function ga4_purchase($order_id)
         items: [
             <?php foreach ($order->get_items() as $item): ?>
             {
-                $item_id: <?= $item->get_id() ?> ,
-                $item_name: <?= $item->get_name() ?> ,
-                $item_quantity: <?= $item->get_quantity() ?> ,
+                item_id: '<?= $item->get_id() ?>'
+                item_name: '<?= $item->get_name() ?>',
+                item_quantity: <?= $item->get_quantity() ?> ,
             },
             <?php endforeach ?>
         ],
