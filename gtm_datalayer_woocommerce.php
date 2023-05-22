@@ -2,6 +2,12 @@
 
 const GTM_CONTAINER_ID = 'GTM-P6ZSBHC';
 
+/**
+ * The 'ecommerce' key is used to wrap the dataLayer values except the event name.
+ * The 'ecommerce' key + the use of GA4 recommended events names allow to use the "Send e-commerce data" > "Datalayer" option of the GA4 event tag configuration in GTM.
+ * The 'ecommerce' key in the dataLayer is optional for add_to_cart and 'purchase' event exceptionaly, but is recommended to use it for more clarity thoughout the ecommerce funnel
+ */
+
 add_action('wp_head', 'gtm_config_head');
 add_action('wp_body_open', 'gtm_config_body');
 add_action('woocommerce_before_shop_loop', 'gtm_view_item_list');
@@ -107,17 +113,24 @@ function gtm_add_to_cart($cart_item_key, $product_id, $quantity)
     $price = $product->get_price();
     ?>
 <script>
-    dataLayer.push({
-        event: 'add_to_cart',
-        currency: '<?= get_woocommerce_currency() ?>',
-        value: <?= $price * $quantity ?> ,
-        items: [{
-            item_id: '<?= $product->get_id() ?>',
-            item_name: '<?= $product->get_name() ?>',
-            price: <?= $price ?> ,
-            quantity: <?= $quantity ?> ,
-        }]
-    });
+    const waitForDatayLer = setInterval(function() {
+        if (typeof dataLayer !== 'undefined') {
+            dataLayer.push({
+                event: 'add_to_cart',
+                ecommerce: {
+                    currency: '<?= get_woocommerce_currency() ?>',
+                    value: <?= $price * $quantity ?> ,
+                    items: [{
+                        item_id: '<?= $product->get_id() ?>',
+                        item_name: '<?= $product->get_name() ?>',
+                        price: <?= $price ?> ,
+                        quantity: <?= $quantity ?> ,
+                    }],
+                },
+            });
+            clearInterval(waitForDatayLer);
+        }
+    }, 40);
 </script>
 <?php
 }

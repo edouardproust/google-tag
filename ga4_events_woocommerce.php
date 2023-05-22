@@ -96,7 +96,7 @@ function ga4_add_to_cart($cart_item_key, $product_id, $quantity)
             });
             clearInterval(waitForGtag);
         }
-    }, 100);
+    }, 40);
 </script>
 <?php
 }
