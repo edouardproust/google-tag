@@ -30,10 +30,10 @@ function ga4_config()
 
 function ga4_view_item_list()
 {
-    $product_query = new WP_Query(array(
+    $product_query = new WP_Query([
         'post_type' => 'product',
         'posts_per_page' => -1,
-    ));
+    ]);
     $products = $product_query->get_posts(); ?>
 <script>
     gtag('event', 'view_item_list', {
@@ -53,7 +53,6 @@ function ga4_view_item_list()
 </script>
 <?php
 }
-
 
 function ga4_view_item()
 {

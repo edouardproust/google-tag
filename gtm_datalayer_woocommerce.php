@@ -82,7 +82,6 @@ function gtm_view_item_list()
 <?php
 }
 
-
 function gtm_view_item()
 {
     global $product;
@@ -161,7 +160,6 @@ function gtm_view_cart()
 </script>
 <?php
 }
-
 
 function gtm_begin_checkout()
 {
